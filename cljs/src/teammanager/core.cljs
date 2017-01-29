@@ -8,4 +8,4 @@
 
 (defn ^:export main
   []
-  (dom/append (.-body js/document) (dom/element "div" "Hello world edit me now!")))
+  (dom/append (.-body js/document) (dom/element "div" "Hello world edit me now -- awesome :@ !")))
