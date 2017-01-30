@@ -1,6 +1,8 @@
 (ns bookshelf.core
   (:require [devtools.core :as devtools]
-            [clojure.browser.dom :as dom]))
+            [reagent.core :as reagent]
+            [re-frame.core :refer [dispatch dispatch-sync]]
+            [bookshelf.views]))
 
 ;; -- Debugging aids ----------------------------------------------------------
 (devtools/install!)       ;; we love https://github.com/binaryage/cljs-devtools
@@ -8,4 +10,6 @@
 
 (defn ^:export main
   []
-  (dom/append (.-body js/document) (dom/element "div" "Let's get cracking!")))
+
+  (reagent/render [bookshelf.views/app]    ;;
+                  (.getElementById js/document "mount-point")))

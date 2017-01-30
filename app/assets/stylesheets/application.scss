@@ -1,0 +1,96 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require animate
+ */
+
+div {
+  box-sizing: border-box;
+}
+
+body {
+  background-image: image-url('bookshelf.png');
+  background-size: 400px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: #96bbb3;
+  height: 100vh;
+}
+
+* {
+  font-family: 'Lato', sans-serif;
+}
+
+$base-sizing: 12px;
+
+#app-container {
+  height: 100vh;
+  padding: $base-sizing * 2;
+}
+
+#search-box-container {
+  height: $base-sizing * 5;
+  box-shadow: 2px 2px 6px #5f847b;
+  border-radius: 2px;
+  padding: $base-sizing;
+  background: white;
+  max-width: $base-sizing*64;
+  margin: 0px auto;
+}
+
+input#search-box-input {
+  border: none;
+  height: $base-sizing * 3;
+  width: calc(100% - #{$base-sizing * 2});
+  font-size: $base-sizing * 2;
+  line-height: $base-sizing * 3;
+  padding: 0px $base-sizing;
+  font-weight: 300;
+  border-bottom: 1px solid #96bbb3;
+}
+
+#booklists-container {
+  padding: $base-sizing * 2;
+  height: calc(100vh - #{$base-sizing * 7});
+  width: 100vw;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  white-space: nowrap;
+  margin-left: -($base-sizing*2);
+  text-align: center;
+}
+
+.booklist {
+  width: 240px;
+  height: calc(100vh - #{$base-sizing * 14});
+  background-color: rgba(255,255,255,0.85);
+  box-shadow: 2px 2px 6px #5f847b;
+  border-radius: 2px;
+  margin-right: $base-sizing * 2;
+  transition: background-color 0.5s;
+  display: inline-block;
+  &:hover {
+    background-color: rgba(255,255,255,0.95);
+  }
+  &:last-child {
+    margin-right: 0px;
+  }
+}
+
+
+
+
+
+
+

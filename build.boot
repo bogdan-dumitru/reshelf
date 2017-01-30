@@ -10,7 +10,9 @@
                  [com.cemerick/piggieback     "0.2.1"          :scope "test"]
                  [weasel                      "0.7.0"          :scope "test"]
                  [org.clojure/tools.nrepl     "0.2.12"         :scope "test"]
-                 [binaryage/devtools "0.8.1"]])
+                 [binaryage/devtools "0.8.1"]
+                 [reagent "0.6.0-rc"]
+                 [re-frame "0.9.0"]])
 
 (require
   '[adzerk.boot-cljs      :refer [cljs]]
