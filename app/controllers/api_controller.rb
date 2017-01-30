@@ -10,7 +10,7 @@ class ApiController < ActionController::Base
 
   def authorize!
     if current_user.nil?
-      render json: {error: "No active session"}
+      render json: {error: "No active session"}, status: 401
     end
   end
 end

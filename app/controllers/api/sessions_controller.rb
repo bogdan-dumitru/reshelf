@@ -1,7 +1,7 @@
 class Api::SessionsController < ApiController
   skip_before_action :authorize!, only: :create
 
-  def get
+  def show
     @user = current_user
     render template: 'api/users/show'
   end

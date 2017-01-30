@@ -4,8 +4,8 @@
 (def ls-key "bookshelf-user-token")
 (defn user-token->local-store
   "Puts the user token into localStorage"
-  [user-token]
-  (.setItem js/localStorage ls-key (str user-token)))
+  [{:keys [config]}]
+  (.setItem js/localStorage ls-key (str (:user-token config))))
 
 (re-frame/reg-cofx :local-store-token
   (fn [cofx _]

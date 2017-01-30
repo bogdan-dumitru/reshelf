@@ -45,21 +45,31 @@
 
 (reg-event-db
   :user-loaded
-  [check-spec-interceptor]
+  [check-spec-interceptor
+   (after user-token->local-store)]
   (fn [db [_ user]]
     (let [new-db (-> db
                    (assoc :user-loading false)
                    (assoc-in [:config :user-token] (:token user))
                    (assoc :user user))]
-    (println "NewDb -> " new-db)
     new-db)))
 
+(reg-event-fx
+  :login-user
+  [check-spec-interceptor]
+  (fn [{:keys [db]} _]
+    (let [req-params (merge (api-request :get "/api/session" db)
+                            {:on-success [:user-loaded]
+                             :on-failure [:invalidate-token] })]
+    {:db (assoc db :user-loading true)
+     :http-xhrio req-params})))
+  
 (reg-event-fx
   :create-session
   [check-spec-interceptor]
   (fn [{:keys [db]} [_ user-name]]
     (let [req-body {:user {:name user-name}}
-          req-params (merge (api-request :post "/api/session" req-body)
+          req-params (merge (api-request :post "/api/session" db req-body)
                             {:on-success [:user-loaded]
                              :on-failure [:user-load-error] })]
     {:db (assoc db :user-loading true)

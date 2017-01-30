@@ -26,7 +26,7 @@
 
 (defn footer
   []
-  [:p#footer
+  [:p#footer {:class "animated fadeIn"}
    [:span#line-1 (str "Happy reading, " @(subscribe [:user-name]) "!")]
    [:span#line-2 
     "Made with" 
@@ -42,7 +42,7 @@
     [footer]
    ])
 
-(defn loading [] [:div.loading [:text "loading"]])
+(defn loading [] [:div#user-loading.animated.fadeIn [:div.cp-spinner.cp-hue]])
 
 (defn signup
   []
