@@ -1,4 +1,4 @@
-(ns teammanager.core
+(ns bookshelf.core
   (:require [devtools.core :as devtools]
             [clojure.browser.dom :as dom]))
 
@@ -8,4 +8,4 @@
 
 (defn ^:export main
   []
-  (dom/append (.-body js/document) (dom/element "div" "Hello world edit me now -- awesome :@ !")))
+  (dom/append (.-body js/document) (dom/element "div" "Let's get cracking!")))

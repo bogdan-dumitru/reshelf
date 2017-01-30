@@ -23,7 +23,7 @@
   (comp (serve :port 5555)
         (watch)
         (speak)
-        (reload :asset-host "http://localhost:5555" :on-jsload 'teammanager.core/main)
+        (reload :asset-host "http://localhost:5555" :on-jsload 'bookshelf.core/main)
         (cljs-repl)
         (cljs :source-map true :optimizations :none)))
 
