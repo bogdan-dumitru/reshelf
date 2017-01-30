@@ -2,6 +2,9 @@
   (:require [devtools.core :as devtools]
             [reagent.core :as reagent]
             [re-frame.core :refer [dispatch dispatch-sync]]
+            [bookshelf.db]
+            [bookshelf.events]
+            [bookshelf.subs]
             [bookshelf.views]))
 
 ;; -- Debugging aids ----------------------------------------------------------
@@ -10,6 +13,8 @@
 
 (defn ^:export main
   []
+
+  (dispatch-sync [:initialise-db])
 
   (reagent/render [bookshelf.views/app]    ;;
                   (.getElementById js/document "mount-point")))

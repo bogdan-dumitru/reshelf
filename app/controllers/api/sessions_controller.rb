@@ -1,12 +1,12 @@
 class Api::SessionsController < ApiController
-  skip_before_action :authorize!, only: :signup
+  skip_before_action :authorize!, only: :create
 
-  def signin
+  def get
     @user = current_user
     render template: 'api/users/show'
   end
 
-  def signup
+  def create
     @user = User.create!(user_params)
     render template: 'api/users/show'
   end

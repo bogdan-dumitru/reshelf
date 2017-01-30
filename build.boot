@@ -12,6 +12,8 @@
                  [org.clojure/tools.nrepl     "0.2.12"         :scope "test"]
                  [binaryage/devtools "0.8.1"]
                  [reagent "0.6.0-rc"]
+                 [cljs-ajax "0.5.8"]
+                 [day8.re-frame/http-fx "0.1.3"]
                  [re-frame "0.9.0"]])
 
 (require

@@ -15,6 +15,11 @@
  *= require animate
  */
 
+$bs: 12px;
+$bg-cl: #96bbb3;
+$bg-shadow-cl: #5f847b;
+$action-cl: #5ac9c3;
+
 div {
   box-sizing: border-box;
 }
@@ -24,73 +29,193 @@ body {
   background-size: 400px;
   background-repeat: no-repeat;
   background-position: 50% 50%;
-  background-color: #96bbb3;
+  background-color: $bg-cl;
   height: 100vh;
+}
+
+button {
+  height: 4 * $bs;
+  padding: 0px $bs;
+  line-height: 2 * $bs;
+  background: #f2678e;
+  font-size: 1.5 * $bs;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0px 0px 1px $bg-shadow-cl;
+  &:hover {
+    background: #e92d5d;
+  }
+}
+
+#mount-point {
+  overflow: auto;
+  height: 100%;
 }
 
 * {
   font-family: 'Lato', sans-serif;
 }
 
-$base-sizing: 12px;
+
+.input-underline {
+  border: none;
+  height: $bs * 3;
+  width: 100%;
+  font-size: $bs * 2;
+  line-height: $bs * 3;
+  font-weight: 300;
+  border-bottom: 1px solid $bg-cl;
+  vertical-align: middle;
+}
 
 #app-container {
   height: 100vh;
-  padding: $base-sizing * 2;
+  overflow: hidden;
+}
+
+#booted-app-wrapper {
+  height: 100vh;
+  padding: $bs * 2;
+  position: relative;
+  overflow: hidden;
 }
 
 #search-box-container {
-  height: $base-sizing * 5;
-  box-shadow: 2px 2px 6px #5f847b;
-  border-radius: 2px;
-  padding: $base-sizing;
+  height: $bs * 5;
+  box-shadow: 2px 2px 7px $bg-shadow-cl;
+  border-radius: 3px;
+  padding: $bs;
   background: white;
-  max-width: $base-sizing*64;
+  max-width: $bs*64;
   margin: 0px auto;
+  position: relative;
+}
+
+span#search-box-icon {
+  display: block;
+  position: absolute;
+  top: $bs + 2px;
+  left: $bs;
+  width: $bs * 3;
+  height: $bs * 3;
+  background-image: image-url('book-open-flat.png');
+  background-size: $bs * 2;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  margin-right: $bs;
 }
 
 input#search-box-input {
-  border: none;
-  height: $base-sizing * 3;
-  width: calc(100% - #{$base-sizing * 2});
-  font-size: $base-sizing * 2;
-  line-height: $base-sizing * 3;
-  padding: 0px $base-sizing;
-  font-weight: 300;
-  border-bottom: 1px solid #96bbb3;
+  width: calc(100% - #{$bs * 4});
+  padding-left: $bs * 4;
 }
 
 #booklists-container {
-  padding: $base-sizing * 2;
-  height: calc(100vh - #{$base-sizing * 7});
+  padding: $bs * 2;
+  height: calc(100vh - #{$bs * 7});
   width: 100vw;
   overflow-y: hidden;
   overflow-x: scroll;
   white-space: nowrap;
-  margin-left: -($base-sizing*2);
+  margin-left: -($bs*2);
   text-align: center;
 }
 
 .booklist {
   width: 240px;
-  height: calc(100vh - #{$base-sizing * 14});
-  background-color: rgba(255,255,255,0.85);
-  box-shadow: 2px 2px 6px #5f847b;
-  border-radius: 2px;
-  margin-right: $base-sizing * 2;
+  height: calc(100vh - #{$bs * 14});
+  background-color: rgba(255,255,255,0.95);
+  box-shadow: 1px 1px 4px $bg-shadow-cl;
+  border-radius: $bs $bs 3px 3px;
+  // border: 1px solid #f7a5bc;
+
+  margin-right: $bs * 2;
   transition: background-color 0.5s;
   display: inline-block;
   &:hover {
-    background-color: rgba(255,255,255,0.95);
+    background-color: rgba(255,255,255,1);
   }
   &:last-child {
     margin-right: 0px;
   }
 }
 
+p#footer {
+  position: absolute;
+  bottom: $bs;
+  width: 100%;
+  text-align: center;
+  color: white;
+  text-shadow: 0px 1px #666;
+  span#line-1 {
+    font-size: 15px;
+  }
+  span#line-2 { 
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+    a { margin-left: 4px; }
+  }
+  span#heart {
+    margin: 0px 4px;
+    color: #df0031;
+  }
+}
 
+#signup-container {
+  margin: auto;
+  margin-top: -($bs * 9);
+  position: relative;
+  top: 50%;
+  height: $bs * 18;
+  width: $bs * 36;
 
+  background-color: rgba(255,255,255,0.95);
+  box-shadow: 0px 0px 3px $bg-shadow-cl;
+  border-radius: $bs $bs 3px 3px;
+  overflow: hidden;
 
+  h2 {
+    margin-top: $bs * 2;
+    font-size: $bs * 2;
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: $bs * 3;
+    letter-spacing: 0.5px;
+    color: #7a545f;
+    &:after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 0px;
+      border-bottom: 3px solid $bg-cl;
+      position: absolute;
+      left: 50%;
+      margin-left: -40px;
+      margin-top: 5px;
+    }
+  }
 
+  .warning {
+    position: absolute;
+    font-size: 36px;
+    color: #df0031;
+    top: 9px;
+    left: 10px;
+  }
+  input {
+    width: calc(100% - #{$bs * 4});
+    text-align: center;
+    padding-left: $bs * 2;
+    padding-right: $bs * 2;
+  }
 
+  #signup-actions {
+    margin-top: $bs;
+    text-align: center;
+    padding: $bs;
+  }
+}
 
