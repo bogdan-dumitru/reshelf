@@ -5,7 +5,7 @@
     [day8.re-frame.http-fx]
     [re-frame.core :refer [reg-event-db reg-event-fx inject-cofx path trim-v
                            after debug]]
-    [bookshelf.api :refer [api-request]]
+    [bookshelf.api :refer [api-request get-books]]
     [cljs.spec     :as s]))
 
 (defn check-and-throw
@@ -25,7 +25,7 @@
     (let [filter-nils #(into {} (filter (comp some? val) %))
           config (filter-nils (-> {}
                      (assoc :user-token local-store-token)
-                     (assoc :goodreads-token (:goodreads-token metas))
+                     (assoc :google-books-token (:google-books-token metas))
                      (assoc :csrf-token (:csrf-token metas))
                      (assoc :csrf-param (:csrf-param metas))))]
     {:db (assoc default-value :config config)})))
@@ -74,4 +74,55 @@
                              :on-failure [:user-load-error] })]
     {:db (assoc db :user-loading true)
      :http-xhrio req-params})))
+  
+(reg-event-db
+  :set-search-loading
+  [check-spec-interceptor]
+  (fn [db _] 
+    (assoc-in db [:search :loading] true)))
+
+(reg-event-db
+  :search-finished
+  [check-spec-interceptor]
+
+  (let [filter-nils #(into {} (filter (comp some? val) %))
+        volume->book #(->{:book-id (:id %)
+                          :title (->> % (:volumeInfo) (:title))
+                          :authors (->> % (:volumeInfo) 
+                                          (:authors) 
+                                          (clojure.string/join ", "))
+                          :picture-url (->> % (:volumeInfo) 
+                                              (:imageLinks) 
+                                              (:smallThumbnail))
+                          :info-url (->> % (:volumeInfo) (:infoLink))
+                          :tags (->> % (:volumeInfo)
+                                       (:categories))
+                          :published-at (->> % (:volumeInfo) 
+                                               (:publishedDate))})]
+  (fn [db [_ results] ]
+    (let [book-map (->> results (:items)
+                                (take 9)
+                                (map (comp filter-nils volume->book))
+                                (map #(->[(:book-id %) %])))]
+    (-> db
+        (assoc-in [:search :results] (keys book-map))
+        (assoc-in [:search :loading] false)
+        (update-in [:books] merge book-map))))))
+
+(reg-event-db
+  :search-error
+  [check-spec-interceptor]
+  (fn [db [_ resp] ]
+    (println "SEARCH ERROR ALL THE WAY")
+    (println resp)
+    db))
+
+(reg-event-fx
+  :start-search
+  [check-spec-interceptor]
+  (fn [{:keys [db]} [_ query]]
+    (let [req-params (merge (get-books db query)
+                            {:on-success [:search-finished]
+                             :on-failure [:search-error] })]
+    {:http-xhrio req-params})))
   

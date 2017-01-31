@@ -14,6 +14,7 @@
                  [reagent "0.6.0-rc"]
                  [cljs-ajax "0.5.8"]
                  [day8.re-frame/http-fx "0.1.3"]
+                 [funcool/tubax "0.2.0"]
                  [re-frame "0.9.0"]])
 
 (require

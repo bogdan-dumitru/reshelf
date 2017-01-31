@@ -5,32 +5,39 @@
 
 ;; Configuration
 (s/def ::user-token (s/or :token string? :no-token nil?))
-(s/def ::goodreads-token string?)
+(s/def ::google-books-token string?)
 (s/def ::csrf-token string?)
 (s/def ::csrf-param string?)
-(s/def ::config (s/keys :req-un [::goodreads-token ::csrf-token] :opt-un [::user-token]))
+(s/def ::config (s/keys :req-un [::google-books-token ::csrf-token] :opt-un [::user-token]))
 
 ;; Common
 (s/def ::id int?)
 (s/def ::name string?)
+(s/def ::loading boolean?)
 
 ;; Author
-(s/def ::author (s/keys :req-un [::id ::name]))
-(s/def ::authors (s/and
-                   (s/map-of ::id ::author)
-                   #(instance? PersistentTreeMap %)))
-
+;; (s/def ::author (s/keys :req-un [::id ::name]))
+;; (s/def ::authors (s/and
+;;                    (s/map-of ::id ::author)
+;;                    #(instance? PersistentTreeMap %)))
+;; 
 ;; Book
+(s/def ::book-id string?)
 (s/def ::title string?)
-(s/def ::isbn string?)
 (s/def ::picture-url string?)
-(s/def ::book (s/keys :req-un [::id ::title ::author ::isbn ::picture-url]))
+(s/def ::authors string?)
+(s/def ::info-url string?)
+(s/def ::published-at string?)
+(s/def ::tags (s/cat :id (s/* string?)))
+(s/def ::book (s/keys :req-un [::book-id ::title]
+                      :opt-un [::info-url ::published-at 
+                               ::picture-url ::tags ::authors]))
+
 (s/def ::books (s/and
-                 (s/map-of ::id ::book)
+                 (s/map-of ::book-id ::book)
                  #(instance? PersistentTreeMap %)))
 
 ;; ListItem
-(s/def ::book-id int?)
 (s/def ::list-id int?)
 (s/def ::list-item (s/keys :req-un [::id ::book-id ::list-id]))
 (s/def ::list-items (s/and
@@ -48,15 +55,17 @@
 ;; User
 (s/def ::user (s/keys :req-un [::id ::name]))
 
-;; Loading
+;; Search
+; (s/def ::query string?)
+(s/def ::results (s/cat :book-ids (s/* ::book-id)))
+(s/def ::search (s/keys :opt-un [::results ::loading]))
 
-(s/def ::db (s/keys :req-un [::config ::authors ::books
-                             ::list-items ::lists] 
+(s/def ::db (s/keys :req-un [::config ::books ::list-items ::lists ::search] 
                     :opt-un [::user]))
 
 (def default-value
   {:config {}
-   :authors (sorted-map)
+   :search { :loading false }
    :books (sorted-map)
    :list-items (sorted-map)
    :lists (sorted-map)})

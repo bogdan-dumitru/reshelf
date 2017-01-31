@@ -3,7 +3,6 @@
 
 (defn api-prepare-body
   [method body {:keys [config]}]
-  (println "Config: " config)
   (let [csrf-body {(keyword (:csrf-param config)) 
                    (:csrf-token config)}
         token-present? (some? (:user-token config))
@@ -23,4 +22,13 @@
     :timeout 3000
     :response-format (ajax/json-response-format {:keywords? true})
     :format          (ajax/json-request-format)}))
+
+(defn get-books
+  [{:keys [config]} query]
+  (let [api-key (:google-books-token config)]
+  { :method :get
+    :uri "https://www.googleapis.com/books/v1/volumes"
+    :params {:key api-key :q query }
+    :response-format (ajax/json-response-format {:keywords? true})
+    :timeout 5000 }))
 
