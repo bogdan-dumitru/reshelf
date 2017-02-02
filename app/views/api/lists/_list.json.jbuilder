@@ -1,2 +1,4 @@
-json.extract! list, :id, :name, :position, :color, :created_at, :updated_at
-json.url api_list_url(list, format: :json)
+json.extract! list, :id, :name, :position, :color
+json.list_items do
+  json.array! list.list_items, partial: 'api/list_items/list_item', as: :list_item
+end

@@ -13,14 +13,9 @@
 ;; Common
 (s/def ::id int?)
 (s/def ::name string?)
-(s/def ::loading boolean?)
+(s/def ::loading? boolean?)
+(s/def ::loaded? boolean?)
 
-;; Author
-;; (s/def ::author (s/keys :req-un [::id ::name]))
-;; (s/def ::authors (s/and
-;;                    (s/map-of ::id ::author)
-;;                    #(instance? PersistentTreeMap %)))
-;; 
 ;; Book
 (s/def ::book-id string?)
 (s/def ::title string?)
@@ -28,8 +23,8 @@
 (s/def ::authors string?)
 (s/def ::info-url string?)
 (s/def ::published-at string?)
-(s/def ::tags (s/cat :id (s/* string?)))
-(s/def ::book (s/keys :req-un [::book-id ::title]
+(s/def ::tags (s/cat :tag (s/* string?)))
+(s/def ::book (s/keys :req-un [::book-id ::loaded? ::title]
                       :opt-un [::info-url ::published-at 
                                ::picture-url ::tags ::authors]))
 
@@ -47,9 +42,10 @@
 ;; List
 (s/def ::color string?)
 (s/def ::position int?)
-(s/def ::list (s/keys :req-un [::id ::name ::color ::position]))
+(s/def ::list-item-ids (s/cat :list-item-id (s/* int?)))
+(s/def ::list (s/keys :req-un [::id ::name ::color ::list-item-ids] :opt-un [::position]))
 (s/def ::lists (s/and
-                 (s/map-of ::id ::list-item)
+                 (s/map-of ::id ::list)
                  #(instance? PersistentTreeMap %)))
 
 ;; User
@@ -58,14 +54,15 @@
 ;; Search
 ; (s/def ::query string?)
 (s/def ::results (s/cat :book-ids (s/* ::book-id)))
-(s/def ::search (s/keys :opt-un [::results ::loading]))
+(s/def ::search (s/keys :opt-un [::results ::loading?]))
 
+(s/def ::book-in-queue-id string?)
 (s/def ::db (s/keys :req-un [::config ::books ::list-items ::lists ::search] 
-                    :opt-un [::user]))
+                    :opt-un [::user ::book-in-queue-id]))
 
 (def default-value
   {:config {}
-   :search { :loading false }
+   :search { :loading? false }
    :books (sorted-map)
    :list-items (sorted-map)
    :lists (sorted-map)})

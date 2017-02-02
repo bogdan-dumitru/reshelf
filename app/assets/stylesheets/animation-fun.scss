@@ -16,7 +16,7 @@
   background: #f6f7f8;
   background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
   background-size: 800px 104px;
-  height: 60px;
+  height: 76px;
   position: relative;
 }
 
@@ -31,7 +31,7 @@
 .background-masker.header-bottom,
 .background-masker.subheader-bottom {
   top: 0;
-  left: 40px;
+  left: 50px;
   right: 0;
   height: 10px;
 }
@@ -41,7 +41,7 @@
 .background-masker.header-right,
 .background-masker.subheader-right {
   top: 10px;
-  left: 40px;
+  left: 50px;
   height: 8px;
   width: 10px;
 }
@@ -71,5 +71,27 @@
 
 .background-masker.subheader-bottom {
   top: 30px;
-  height: 30px;
+  height: 46px;
 }
+
+.booklist-book-item {
+  .background-masker {
+    background: #f2f2f2;
+  }
+  .animated-background {
+    height: 50px;
+    background: #ddd;
+    background: linear-gradient(to right, #ddd 8%, #ccc 18%, #ddd 33%);
+    background-size: 800px 104px;
+  }
+
+  .header-top, .header-left, .header-bottom, 
+  .subheader-left, .subheader-bottom { left: 35px; }
+  .subheader-bottom {
+    height: 20px;
+  }
+
+}
+
+
+

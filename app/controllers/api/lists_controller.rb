@@ -2,17 +2,17 @@ class Api::ListsController < ApiController
   before_action :set_list, only: [:show, :edit, :update, :destroy]
 
   def index
-    @lists = List.all
+    @lists = current_user.lists
   end
 
   def show
   end
 
   def create
-    @list = List.new(list_params)
+    @list = List.new(list_params.merge({user_id: current_user.id}))
 
     if @list.save
-      render :show, status: :created, location: @list
+      render :show, status: :created
     else
       render json: @list.errors, status: :unprocessable_entity
     end
@@ -20,7 +20,7 @@ class Api::ListsController < ApiController
 
   def update
     if @list.update(list_params)
-      render :show, status: :ok, location: @list
+      render :show, status: :ok
     else
       render json: @list.errors, status: :unprocessable_entity
     end
@@ -34,10 +34,10 @@ class Api::ListsController < ApiController
   private
 
   def set_list
-    @list = List.find(params[:id])
+    @list = current_user.lists.find(params[:id])
   end
 
   def list_params
-    params.require(:list).permit(:name, :position, :user_id, :color)
+    params.require(:list).permit(:name, :position, :color, :book_id)
   end
 end

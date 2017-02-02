@@ -32,3 +32,13 @@
     :response-format (ajax/json-response-format {:keywords? true})
     :timeout 5000 }))
 
+(defn get-book
+  [{:keys [config]} book-id]
+  (let [api-key (:google-books-token config)]
+  { :method :get
+    :uri (str "https://www.googleapis.com/books/v1/volumes/" book-id)
+    :params {:key api-key }
+    :response-format (ajax/json-response-format {:keywords? true})
+    :timeout 5000 }))
+
+
